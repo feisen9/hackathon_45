@@ -1,0 +1,31 @@
+用户 admin
+密码 123456
+
+未做完。目前登录后，只有“今日文章”模块可以进入。
+
+
+修改html中url：
+1. 
+app/main/templates/articlepage.html
+Line135 改成 const url = 'http://{服务器ip}:8099/';
+
+2. 
+app/main/templates/login.html
+Line50 改成const url = 'http://{服务器ip}:8099/';
+
+3.
+app/main/templates/homepage3.html
+Line143 改成const url = 'http://{服务器ip}:8099/';
+
+数据库:
+Mysql>=8.0 
+1. 
+app/main/models/dbgetter.py
+中 line4-5行内，host，user，password，改成服务器的数据库对应的信息
+2.
+首先执行sql/hackathon_45.sql
+之后执行sql/hackathon_45_data.sql
+
+python:
+最新flask
+
