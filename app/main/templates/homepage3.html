@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .fixed-top {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+            background-color: #5b9aa0; /* Dark Cyan */
+            border-bottom: 1px solid #ddd;
+            border-radius: 0;
+        }
+
+        .fixed-top img {
+            border: 2px solid #fff;
+        }
+
+        .fixed-top h5 {
+            color: #322424;
+        }
+
+        .fixed-top .btn-link {
+            color: #6c6c6c;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card .card-header {
+            background-color: #f4f1de; /* Beige */
+            font-weight: bold;
+        }
+
+        .clickable {
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+        }
+
+        .clickable:hover {
+            transform: scale(1.05);
+            background-color: #f0f0f0;
+        }
+
+
+        .card .card-body .card-title {
+            color: #3e4444; /* Dark Slate Gray */
+        }
+
+        .small-text {
+            font-size: 0.8rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <!-- 部分1 -->
+    <div class="fixed-top bg-light d-flex align-items-center p-3 rounded">
+        <div class="pr-3">
+            <img id="user-avatar" src="user-profile-picture-url" alt="游客" width="40" height="40" class="rounded-circle">
+        </div>
+        <div class="flex-grow-1 text-center">
+            <h5 id="today-title">今日内容</h5>
+        </div>
+        <div>
+            <!-- <button class="btn btn-link">设置</button> -->
+        </div>
+    </div>
+
+    <!-- 部分2 -->
+    <div class="mt-5 pt-3 container">
+        <a id="article-link" class="card-link">
+            <div class="card clickable">
+                <div id="article-card" class="card">
+                    <div class="card-header">
+                        今日文章
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text" id="article-summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                        <p id="article-views" class="small-text">0 浏览量</p>
+                        <p id="article-likes" class="small-text">0 赞</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a id="book-link" class="card-link mt-3">
+            <div class="card clickable">
+                <div class="card mt-3">
+                    <div class="card-header">
+                        今日书籍
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="book-name">书名</h5>
+                        <p class="card-text" id="book-summary">书籍简介...</p>
+                        <p id="book-views" class="small-text">0 浏览量</p>
+                        <p id="book-likes" class="small-text">0 赞</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a id="photo-link" class="card-link mt-3">
+            <div class="card clickable">
+                <div class="card mt-3">
+                    <div class="card-header">
+                        今日照片
+                    </div>
+                    <div class="card-body">
+                        <img src="picture-url" alt="Content Image" class="img-fluid">
+                        <p id="photo-views" class="small-text">0 浏览量</p>
+                        <p id="photo-likes" class="small-text">0 赞</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- 部分3 -->
+    <!-- <div class="mt-3">
+        <h5>今日评论</h5>
+        <div class="media">
+            <img src="commenter-avatar-url" alt="Commenter Avatar" class="mr-3 rounded-circle" width="40" height="40">
+            <div class="media-body">
+                <h5 class="mt-0">评论者昵称</h5>
+                这是一条评论的内容...
+            </div>
+        </div>
+
+    </div> -->
+    <div id="memo"></div>
+
+    <script>
+        const url = 'http://127.0.0.1:8099/';
+        window.onload = function() {
+            // var username = document.getElementById('user-avatar').alt;
+            var username = getCookie('username');
+            document.getElementById("today-title").innerHTML = username;
+            var userid = getCookie('userid');
+            // var username = localStorage.getItem('username');
+            // username = 'feisen'
+            const data = {
+                username: username,
+            };
+            const jsonData = JSON.stringify(data);
+            fetch(url+'homePage', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: jsonData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // console.log(document.cookie);
+                // console.log(data)
+                // console.log(username)
+                var iconImgElement = document.getElementById('user-avatar');
+                iconImgElement.src = "data:image/jpeg;base64,"+data.data.iconimg
+                document.getElementById('article-summary').innerHTML = data.data.article.summary;
+                document.getElementById('book-summary').innerHTML = data.data.book.summary;
+                // document.getElementById('photo-summary').innerHTML = data.data.photo.summary;
+
+                document.getElementById('article-views').innerHTML = data.data.article.numview + ' 浏览量';
+                document.getElementById('article-likes').innerHTML = data.data.article.numlike + ' 赞';
+                document.getElementById('book-views').innerHTML = data.data.book.numview + ' 浏览量';
+                document.getElementById('book-likes').innerHTML = data.data.book.numlike + ' 赞';
+                document.getElementById('photo-views').innerHTML = data.data.photo.numview + ' 浏览量';
+                document.getElementById('photo-likes').innerHTML = data.data.photo.numlike + ' 赞';
+                
+                setCookie('login', 'true', 3);
+                data.data['username'] = username;
+                data.data['userid'] = userid;
+                localStorage.setItem('homePageMemo', JSON.stringify(data.data));
+            })
+            .catch((error) => console.error('Error:', error));
+        }
+
+
+        // JavaScript代码
+        document.getElementById('article-link').onclick = function() {
+            window.location.href = url+'articlePage';
+        };
+        document.getElementById('book-link').onclick = function() {
+            window.location.href = url+'book';
+        };
+        document.getElementById('photo-link').onclick = function() {
+            window.location.href = url+'photo';
+        };
+    </script>
+
+    <script>
+        
+        function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+
+        for(var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+
+            /* Remove whitespace at the beginning */
+            while (cookiePair[0].charAt(0) == ' ') {
+                cookiePair[0] = cookiePair[0].substring(1);
+            }
+
+            /* If the key is the cookie name we are looking for, return its value */
+            if (name == cookiePair[0]) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+
+        /* If the cookie with the provided name does not exist, return null */
+        return null;
+    }
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

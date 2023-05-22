@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BeautyFinder - 发现世界的美</title>
+    <style>
+        /* CSS样式，请根据需求进行自定义样式设计 */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #f2f2f2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        
+        .header .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .header .content-title {
+            flex-grow: 1;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        
+        .header .settings-btn {
+            font-size: 18px;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .comments {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f8f8;
+        }
+        
+        .comment {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .comment .comment-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .comment .comment-username {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .comment .comment-content {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="/Users/feisen/Downloads/R.gif" alt="User Avatar" class="user-avatar">
+        <h1 class="content-title">内容标题</h1>
+        <button class="settings-btn">设置</button>
+    </div>
+
+    <div class="content">
+        <!-- 内容显示部分，可以放置照片或文字 -->
+
+        <h1>
+            <span>内容标题</span>
+        </h1>
+        <span>内容标题</span>
+        <span>内容标题</span>
+        <span>内容标题</span>
+        <span>内容标题</span>
+        <p>内容简要摘要...</p>
+        <p>作者信息</p>
+        <a href="#">阅读更多</a>
+        <div>
+            <button>赞</button>
+            <button>踩</button>
+        </div>
+    </div>
+
+    <div class="comments">
+        <div class="comment">
+            <img src="/Users/feisen/Downloads/R.gif" alt="Comment Avatar" class="comment-avatar">
+            <span class="comment-username">评论者1：</span>
+            <span class="comment-content">评论内容</span>
+        </div>
+        <div class="comment">
+            <img src="/Users/feisen/Downloads/R.gif" alt="Comment Avatar" class="comment-avatar">
+            <span class="comment-username">评论者2：</span>
+            <span class="comment-content">评论内容</span>
+        </div>
+        <!-- 显示更多评论 -->
+    </div>
+</body>
+</html>
